@@ -15,6 +15,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                // testing scp
+                // sh 'scp [sample file] debian@192.168.1.160:~/website'
             }
         }
     }
