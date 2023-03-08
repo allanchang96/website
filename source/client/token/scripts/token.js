@@ -1,20 +1,24 @@
 "use strict"
 
-console.log("token");
-console.log(document.cookie);
-
 function submit(event) {
     event.preventDefault();
-    console.log(document.getElementById('username'));
     fetch('/create?' + new URLSearchParams({
         username: document.getElementById('username').value,
     }), { method: 'GET' })
-    .then((res) => {
-        return res.text();
-    })
-    .then((data) => {
-        document.getElementById('result').innerHTML = res.body
-    });
+        .then((res) => {
+            if (res.ok) {
+                return res.text();
+            }
+            else {
+                return Promise.reject('response failure');
+            }
+        })
+        .then((data) => {
+            document.getElementById('result').innerHTML = data;
+        })
+        .catch(() => {
+            console.log('no response from server');
+        };
 }
 
 const button = document.getElementById('submit');

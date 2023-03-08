@@ -61,6 +61,7 @@ const insertTokenTtl = {
 export async function createRefreshToken(tokenId, username) {
     const client = await pool.connect();
     await client.query(insertToken, [tokenId, username]);
+    client.release();
     return true;
 }
 
@@ -97,5 +98,6 @@ export async function validateRefreshToken(oldTokenId, newTokenId) {
     }
 
     await client.query('COMMIT');
+    client.release();
     return successStatus;
 }
