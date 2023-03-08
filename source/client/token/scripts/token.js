@@ -4,21 +4,19 @@ function submit(event) {
     event.preventDefault();
     fetch('/create?' + new URLSearchParams({
         username: document.getElementById('username').value,
-    }), { method: 'GET' })
-        .then((res) => {
+    }), { method: 'GET' }).then((res) => {
+            // If response is ok, update 'result' html with token id.
             if (res.ok) {
                 return res.text();
             }
             else {
                 return Promise.reject('response failure');
             }
-        })
-        .then((data) => {
+        }).then((data) => {
             document.getElementById('result').innerHTML = data;
-        })
-        .catch(() => {
+        }).catch(() => {
             console.log('no response from server');
-        };
+        });
 }
 
 const button = document.getElementById('submit');

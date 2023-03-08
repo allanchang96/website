@@ -33,6 +33,9 @@ app.get('/create', (req, res) => {
 	queryRes.then((value) => {
 		if (value == true) {
 			console.log('new token issued ' + token);
+			res.set({
+				'Set-Cookie': 'refreshToken=' + token + ' Path=/refresh',
+            })
 			res.send(token);
 		}
 	}).catch(e => res.send('format issue'));
@@ -41,10 +44,13 @@ app.get('/create', (req, res) => {
 app.get('/refresh', (req, res) => {
 	console.log('refresh');
 	let token = crypto.randomBytes(64).toString('base64url');
-	const queryRes = db.validateRefreshToken(req.query.tokenId, token);
+	const queryRes = db.validateRefreshToken(req.cookies.refreshToken, token);
 	queryRes.then((value) => {
 		if (value == true) {
 			console.log('new token issued ' + token);
+			res.set({
+				'Set-Cookie': 'refreshToken=' + token + ' Path=/refresh',
+			})
 			res.send(token);
 		}
 		else {
