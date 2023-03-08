@@ -7,7 +7,7 @@ function submit(event) {
     event.preventDefault();
     let username = document.getElementById('username').value;
     console.log(username);
-    fetch('http://localhost:3001', { method: 'GET' });
+    fetch('/create', { method: 'GET' });
 }
 
 const button = document.getElementById('submit');

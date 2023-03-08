@@ -70,10 +70,9 @@ export async function validateRefreshToken(oldTokenId, newTokenId) {
 
     const client = await pool.connect();
     await client.query('BEGIN');
-    console.log(oldTokenId);
+
     // Get old token information
     const oldTokenInfo = await client.query(getOldToken, [oldTokenId]);
-    console.log(oldTokenInfo);
     if (oldTokenInfo.rowCount == 1) {
         const username = oldTokenInfo.rows[0].username;
         const ttl = oldTokenInfo.rows[0].ttl;
@@ -96,15 +95,7 @@ export async function validateRefreshToken(oldTokenId, newTokenId) {
     else {
         successStatus = false;
     }
+
     await client.query('COMMIT');
     return successStatus;
 }
-
-export function query(text, params, callback) {
-    return pool.query(text, params, callback);
-};
-
-/*let token = crypto.randomBytes(64).toString('base64');
-db.query('INSERT INTO refresh_tokens VALUES ($1, $2)', [token, req.query.username], () => {
-    console.log('inserted ' + req.query.username);
-});*/

@@ -26,10 +26,6 @@ app.get('/token', (req, res) => {
 	res.send('somedata');
 });
 
-app.get('/secret', (req, res) => {
-	console.log(req.cookies);
-});
-
 app.get('/create', (req, res) => {
 	console.log('create');
 	let token = crypto.randomBytes(64).toString('base64url');
@@ -38,9 +34,9 @@ app.get('/create', (req, res) => {
 		if (value == true) {
 			console.log('new token issued ' + token);
 			res.send(token);
-        }
-    })
-});
+		}
+	}).catch(e => res.send('format issue'));
+})
 
 app.get('/refresh', (req, res) => {
 	console.log('refresh');
@@ -54,8 +50,8 @@ app.get('/refresh', (req, res) => {
 		else {
 			console.log('new token issued failure');
 			res.send('no new token issued');
-        }
-	});
+		}
+	}).catch(e => res.send('format issue'));
 })
 
 app.listen(port, () => {
