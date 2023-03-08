@@ -3,10 +3,12 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
+import cookieParser from 'cookie-parser'
 
 import * as db from './db.js'
 
 const app = express();
+app.use(cookieParser());
 const port = 3001;
 
 // JWT signing token
@@ -34,7 +36,7 @@ app.get('/create', (req, res) => {
 		if (value == true) {
 			console.log('new token issued ' + token);
 			res.set({
-				'Set-Cookie': 'refreshToken=' + token + ' Path=/refresh',
+				'Set-Cookie': 'refreshToken=' + token + '; Path=/refresh',
             })
 			res.send(token);
 		}
