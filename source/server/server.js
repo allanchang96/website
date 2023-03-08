@@ -49,7 +49,7 @@ app.get('/refresh', (req, res) => {
 		if (value == true) {
 			console.log('new token issued ' + token);
 			res.set({
-				'Set-Cookie': 'refreshToken=' + token + ' Path=/refresh',
+				'Set-Cookie': 'refreshToken=' + token + '; Path=/refresh',
 			})
 			res.send(token);
 		}
