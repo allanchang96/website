@@ -45,7 +45,7 @@ const revokeUserTokens = {
 const insertToken = {
     name: 'insert-token',
     text: `insert into refresh_tokens
-            values ($1, $2, now() + interval '1 hour', false)`
+            values ($1, $2, now() + interval '1 minute', false)`
 }
 
 /* $1 token-id varchar(100)
@@ -68,6 +68,7 @@ export async function createRefreshToken(tokenId, username) {
 export async function validateRefreshToken(oldTokenId, newTokenId) {
     // successStatus indicates if new token was issued successfully
     let successStatus = true;
+    let username = '';
 
     const client = await pool.connect();
     await client.query('BEGIN');
@@ -75,7 +76,7 @@ export async function validateRefreshToken(oldTokenId, newTokenId) {
     // Get old token information
     const oldTokenInfo = await client.query(getOldToken, [oldTokenId]);
     if (oldTokenInfo.rowCount == 1) {
-        const username = oldTokenInfo.rows[0].username;
+        username = oldTokenInfo.rows[0].username;
         const ttl = oldTokenInfo.rows[0].ttl;
         const revoked = oldTokenInfo.rows[0].revoked;
 
@@ -98,5 +99,5 @@ export async function validateRefreshToken(oldTokenId, newTokenId) {
     }
     await client.query('COMMIT');
     client.release();
-    return successStatus;
+    return { successStatus, username };
 }
