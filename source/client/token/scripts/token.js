@@ -5,10 +5,14 @@ console.log(document.cookie);
 
 function submit(event) {
     event.preventDefault();
-    console.log(document.getElementById('username');
+    console.log(document.getElementById('username'));
     fetch('/create?' + new URLSearchParams({
         username: document.getElementById('username').value,
-    }), { method: 'GET' });
+    }), { method: 'GET' })
+        .then((res) => {
+            document.getElementById('result').innerHTML = res.body
+        }
+    );
 }
 
 const button = document.getElementById('submit');
