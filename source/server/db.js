@@ -43,7 +43,7 @@ const revokeUserTokens = {
  * $2 username varchar(32)
  */
 const insertToken = {
-    name: 'insert-token-ttl',
+    name: 'insert-token',
     text: `insert into refresh_tokens
             values ($1, $2, now() + interval '1 hour', false)`
 }
@@ -96,7 +96,6 @@ export async function validateRefreshToken(oldTokenId, newTokenId) {
     else {
         successStatus = false;
     }
-
     await client.query('COMMIT');
     client.release();
     return successStatus;

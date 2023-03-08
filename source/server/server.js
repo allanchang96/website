@@ -37,10 +37,13 @@ app.get('/create', (req, res) => {
 			console.log('new token issued ' + token);
 			res.set({
 				'Set-Cookie': 'refreshToken=' + token + '; Path=/refresh',
-            })
+			})
 			res.send(token);
 		}
-	}).catch(e => res.send('format issue'));
+	}).catch(e => {
+		console.log(e);
+		res.send('format issue');
+	});
 })
 
 app.get('/refresh', (req, res) => {
@@ -59,7 +62,10 @@ app.get('/refresh', (req, res) => {
 			console.log('new token issued failure');
 			res.send('no new token issued');
 		}
-	}).catch(e => res.send('format issue'));
+	}).catch(e => {
+		console.log(e);
+		res.send('format issue');
+	});
 })
 
 app.listen(port, () => {
