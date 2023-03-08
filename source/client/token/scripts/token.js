@@ -9,10 +9,12 @@ function submit(event) {
     fetch('/create?' + new URLSearchParams({
         username: document.getElementById('username').value,
     }), { method: 'GET' })
-        .then((res) => {
-            document.getElementById('result').innerHTML = res.body
-        }
-    );
+    .then((res) => {
+        return res.text();
+    })
+    .then((data) => {
+        document.getElementById('result').innerHTML = res.body
+    });
 }
 
 const button = document.getElementById('submit');
